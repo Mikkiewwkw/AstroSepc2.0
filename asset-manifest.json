@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/AstroSepc2.0.git/static/css/main.47c8af2e.chunk.css",
+    "main.js": "/AstroSepc2.0.git/static/js/main.ed6062ae.chunk.js",
+    "main.js.map": "/AstroSepc2.0.git/static/js/main.ed6062ae.chunk.js.map",
+    "runtime-main.js": "/AstroSepc2.0.git/static/js/runtime-main.39405415.js",
+    "runtime-main.js.map": "/AstroSepc2.0.git/static/js/runtime-main.39405415.js.map",
+    "static/css/2.261927c1.chunk.css": "/AstroSepc2.0.git/static/css/2.261927c1.chunk.css",
+    "static/js/2.d25fc2a0.chunk.js": "/AstroSepc2.0.git/static/js/2.d25fc2a0.chunk.js",
+    "static/js/2.d25fc2a0.chunk.js.map": "/AstroSepc2.0.git/static/js/2.d25fc2a0.chunk.js.map",
+    "index.html": "/AstroSepc2.0.git/index.html",
+    "precache-manifest.683ef69dbc48e492b59991d5888fe6cd.js": "/AstroSepc2.0.git/precache-manifest.683ef69dbc48e492b59991d5888fe6cd.js",
+    "service-worker.js": "/AstroSepc2.0.git/service-worker.js",
+    "static/css/2.261927c1.chunk.css.map": "/AstroSepc2.0.git/static/css/2.261927c1.chunk.css.map",
+    "static/css/main.47c8af2e.chunk.css.map": "/AstroSepc2.0.git/static/css/main.47c8af2e.chunk.css.map",
+    "static/js/2.d25fc2a0.chunk.js.LICENSE.txt": "/AstroSepc2.0.git/static/js/2.d25fc2a0.chunk.js.LICENSE.txt",
+    "static/media/dx.light.css": "/AstroSepc2.0.git/static/media/dxicons.2b145cef.woff"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.39405415.js",
+    "static/css/2.261927c1.chunk.css",
+    "static/js/2.d25fc2a0.chunk.js",
+    "static/css/main.47c8af2e.chunk.css",
+    "static/js/main.ed6062ae.chunk.js"
+  ]
+}
