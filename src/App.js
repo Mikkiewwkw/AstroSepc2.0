@@ -1,9 +1,7 @@
 import React from "react";
 import "./App.css";
 import Nav from "./Nav";
-import Image from "./Image";
-import Spectrum from "./Spectrum";
-import Tag from "./Tag";
+import Dashboard from "./Dashboard";
 
 function App() {
   return (
@@ -18,11 +16,7 @@ function App() {
                 Compute one-dimensional cut across images and display spectrum.
               </p>
             </div>
-            <Image />
-            <div className="row">
-              <Spectrum />
-              <Tag />
-            </div>
+            <Dashboard />
           </main>
         </div>
       </div>

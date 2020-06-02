@@ -1,11 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"
+    />
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css"
+    />
     <link href="index.css" rel="stylesheet" />
     <title>AstroSpec</title>
   </head>
@@ -16,7 +26,7 @@
       </div>
     </div> -->
     <div class="container-fluid">
-        <!-- <div class="pos-f-t">
+      <!-- <div class="pos-f-t">
           <div class="collapse" id="navbarToggleExternalContent">
             <div class="bg-dark p-4">
               <h4 class="text-white">Collapsed content</h4>
@@ -29,42 +39,51 @@
             </button>
           </nav>
         </div> -->
-        <nav class="col-lg-2 col-md-2 col-sm-2 col-xs-2" role="navigation">
-          <div class="sidebar-sticky">
-            <div class="sidebar-inner">
-              <ul class="nav flex-column nav-pills nav-stacked" data-spy="affix" data-offset-top="205">
-                <li class="text-center">
-                  <a href="index.html"><h1>AstroSpec2</h1></a>
-                </li>
-                <li class="nav-item active p-1">
-                  <a href="#">
-                    <span>Dashboard</span>
-                  </a>
-                </li>
-                <li class="nav-item p-1">
-                  <a href="#">
-                    <span>Images</span>
-                  </a>
-                </li>
-                <li class="nav-item p-1">
-                  <a href="#">
-                    <span>Documents</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
+      <nav class="col-lg-2 col-md-2 col-sm-2 col-xs-2" role="navigation">
+        <div class="sidebar-sticky">
+          <div class="sidebar-inner">
+            <ul
+              class="nav flex-column nav-pills nav-stacked"
+              data-spy="affix"
+              data-offset-top="205"
+            >
+              <li class="text-center">
+                <a href="index.html"><h1>AstroSpec2</h1></a>
+              </li>
+              <li class="nav-item active p-1">
+                <a href="#">
+                  <span>Dashboard</span>
+                </a>
+              </li>
+              <li class="nav-item p-1">
+                <a href="#">
+                  <span>Images</span>
+                </a>
+              </li>
+              <li class="nav-item p-1">
+                <a href="#">
+                  <span>Documents</span>
+                </a>
+              </li>
+            </ul>
           </div>
-        </nav>
+        </div>
+      </nav>
       <!-- end of navigation bar -->
       <div id="page-wrapper">
         <div id="page-inner">
           <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
             <main>
               <div class="content-containter col-md-8">
-                <div> <!--class="well well-sm"-->
+                <div>
+                  <!--class="well well-sm"-->
                   <h1>AST 1001: AstroSpec</h1>
-                  <p>Compute one-dimensional cut across images and display spectrum.</p>
-                </div> <!-- /. WELL -->
+                  <p>
+                    Compute one-dimensional cut across images and display
+                    spectrum.
+                  </p>
+                </div>
+                <!-- /. WELL -->
 
                 <!-- FIRST ROW OF PANELS -->
                 <div class="row">
@@ -77,83 +96,123 @@
                         <h3>Select image</h3>
                         <form role="form">
                           <div class="form-group">
-                            <input type="file" id="file-input" style="display:none"/>
+                            <input
+                              type="file"
+                              id="file-input"
+                              style="display: none;"
+                            />
                             <div class="input-append">
-                              <button type="button" class="btn-lg btn-default" onclick="$('input[id=file-input]').click();">
+                              <button
+                                type="button"
+                                class="btn-lg btn-default"
+                                onclick="$('input[id=file-input]').click();"
+                              >
                                 <i class="fa fa-camera"></i> File...
                               </button>
                             </div>
                           </div>
                         </form>
-                        <span class="help-block" id="helpBlock">Take photo with lens attachment</span>
+                        <span class="help-block" id="helpBlock"
+                          >Take photo with lens attachment</span
+                        >
                         <!-- <p class="help-block">Take photo with lens attachment</p> -->
                         <form role="form">
                           <div class="form-group">
                             <!--<button type="button" class="btn-lg btn-primary" id="edit"><i class="fa fa-edit"></i> Edit</button>-->
-                            <button type="button" class="btn-lg btn-primary" id="crop"><i class="fa fa-magic"></i> Crop</button>
-                            <button type="button" class="btn-lg btn-info" id="spectrum"><i class="fa fa-edit"></i> Spectrum</button>
-                            <button type="button" class="btn-lg btn-danger" id="restore"><i class="fa fa-refresh"></i> Restore</button>
+                            <button
+                              type="button"
+                              class="btn-lg btn-primary"
+                              id="crop"
+                            >
+                              <i class="fa fa-magic"></i> Crop
+                            </button>
+                            <button
+                              type="button"
+                              class="btn-lg btn-info"
+                              id="spectrum"
+                            >
+                              <i class="fa fa-edit"></i> Spectrum
+                            </button>
+                            <button
+                              type="button"
+                              class="btn-lg btn-danger"
+                              id="restore"
+                            >
+                              <i class="fa fa-refresh"></i> Restore
+                            </button>
                           </div>
                         </form>
-                      </div> <!-- /. PANEL-BODY -->
-                    </div> <!-- /. PANEL -->
+                      </div>
+                      <!-- /. PANEL-BODY -->
+                    </div>
+                    <!-- /. PANEL -->
                   </div>
-                </div> <!-- end of first row -->
+                </div>
+                <!-- end of first row -->
 
                 <!-- SECOND ROW -->
                 <div class="row">
                   <div class="col-md-8">
-            	       <div class="panel panel-primary">
-            		        <div class="panel-heading">
-            		            Spectrum
-            		        </div>
-            		        <div class="panel-body">
-            		            <img id="SpecImage" src="" class="img-responsive" />
-            		            <canvas id="CanInvis" class="hidden"></canvas>
-            		         </div> <!-- /. PANEL-BODY -->
-            	          </div> <!-- /. PANEL -->
-            	    </div> <!-- /. COL -->
+                    <div class="panel panel-primary">
+                      <div class="panel-heading">
+                        Spectrum
+                      </div>
+                      <div class="panel-body">
+                        <img id="SpecImage" src="" class="img-responsive" />
+                        <canvas id="CanInvis" class="hidden"></canvas>
+                      </div>
+                      <!-- /. PANEL-BODY -->
+                    </div>
+                    <!-- /. PANEL -->
+                  </div>
+                  <!-- /. COL -->
 
-            	    <div class="col-md-4">
-            	      <div class="panel panel-warning">
-            		        <div class="panel-heading">
-            		            Tag
-            		        </div>
-            		        <div class="panel-body">
-            		            <form role="form">
-            		                <div class="form-group">
-            		                    <select id="lampselect" class="form-control">
-            			                       <option>1</option>
-            			                       <option>2</option>
-            			                       <option>3</option>
-                                    		 <option>4</option>
-                                    		 <option>5</option>
-                                    		 <option>6</option>
-                                    		 <option>7</option>
-                                    		 <option>Incandescent</option>
-                                    		 <option>Flourescent</option>
-                                    		 <option>Halogen</option>
-                                    		 <option>Sun</option>
-            		                    </select>
-            		              </div> <!-- /. FORM-GROUP -->
-                          </form>
-            		      </div> <!-- /. PANEL-BODY -->
-            	     </div> <!-- /. PANEL -->
-            	   </div> <!-- /. COL -->
-            	 </div>  <!-- /. ROW -->
+                  <div class="col-md-4">
+                    <div class="panel panel-warning">
+                      <div class="panel-heading">
+                        Tag
+                      </div>
+                      <div class="panel-body">
+                        <form role="form">
+                          <div class="form-group">
+                            <select id="lampselect" class="form-control">
+                              <option>1</option>
+                              <option>2</option>
+                              <option>3</option>
+                              <option>4</option>
+                              <option>5</option>
+                              <option>6</option>
+                              <option>7</option>
+                              <option>Incandescent</option>
+                              <option>Flourescent</option>
+                              <option>Halogen</option>
+                              <option>Sun</option>
+                            </select>
+                          </div>
+                          <!-- /. FORM-GROUP -->
+                        </form>
+                      </div>
+                      <!-- /. PANEL-BODY -->
+                    </div>
+                    <!-- /. PANEL -->
+                  </div>
+                  <!-- /. COL -->
+                </div>
+                <!-- /. ROW -->
 
-               <!-- THIRD ROW -->
-              <div class="row">
-
+                <!-- THIRD ROW -->
+                <div class="row"></div>
               </div>
-
-              </div> <!-- content containter -->
+              <!-- content containter -->
             </main>
-          </div> <!-- /. COL -->
+          </div>
+          <!-- /. COL -->
         </div>
       </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
   </body>
 </html>

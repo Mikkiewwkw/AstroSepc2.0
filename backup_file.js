@@ -1,5 +1,5 @@
 import React from "react";
-import { Row } from "react-bootstrap";
+import { Row, Image } from "react-bootstrap";
 import "devextreme/dist/css/dx.common.css";
 import "devextreme/dist/css/dx.light.css";
 import ActionSheet, { Item } from "devextreme-react/action-sheet";
@@ -8,24 +8,24 @@ import ImagePreview from "./ImagePreview";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 
-const actionSheetItems = [{ text: "Take Photo" }, { text: "Photo Library" }];
-
-class Image extends React.Component {
+// An alternate is to use aside tag for cropped image preview
+class Picture extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isActionSheetVisible: false,
       actionSheetTarget: "",
-      file: null,
+      fileSrc: null,
       photoMode: false,
       fileMode: false,
       dataUri: "",
       textVisible: true,
       crop: {
         unit: "%",
-        width: 30,
-        aspect: 16 / 9,
       },
+      croppedImageUrl: null,
+      croppedImage: null,
+      croppedInteracted: false,
     };
   }
 
@@ -40,10 +40,10 @@ class Image extends React.Component {
     this.setState({
       isActionSheetVisible: false,
     });
-    if (e.itemData.text == "Photo Library") {
+    if (e.itemData.text === "Photo Library") {
       console.log("File!");
       this.refs.fileUploader.click();
-    } else if (e.itemData.text == "Take Photo") {
+    } else if (e.itemData.text === "Take Photo") {
       console.log("Photo!");
       this.setState({ photoMode: true });
     }
@@ -76,46 +76,62 @@ class Image extends React.Component {
     if (event.target.files && event.target.files.length > 0) {
       const reader = new FileReader();
       reader.addEventListener("load", () =>
-        this.setState({ file: reader.result })
+        this.setState({ fileSrc: reader.result })
       );
       this.setState({ fileMode: true, textVisible: false });
       reader.readAsDataURL(event.target.files[0]);
     }
   };
 
-  handleRestore = (event) => {
+  onRestore = (event) => {
     this.setState({
-      file: null,
+      fileSrc: null,
       photoMode: false,
       fileMode: false,
       textVisible: true,
+      croppedInteracted: false,
+      croppedImageUrl: null,
     });
   };
 
-  handleCropping = (crop, percentCrop) => {
-    this.setState({ crop: percentCrop });
+  onCropChange = (crop, percentCrop) => {
+    this.setState({ crop: crop });
   };
 
-  onImageUploaded = (image) => {
+  // This function is not being called
+  onImageLoaded = (image) => {
     this.imageRef = image;
+    // console.log(this.imageRef);
   };
 
-  handleCropComplete = (crop) => {
+  onCropComplete = (crop) => {
+    console.log("crop complete");
     this.makeClientCrop(crop);
   };
 
+  onCrop = () => {
+    this.setState({
+      fileSrc: this.state.croppedImageUrl,
+      croppedInteracted: true,
+    });
+  };
+
+  onSpectrum = () => {};
+
   async makeClientCrop(crop) {
     if (this.imageRef && crop.width && crop.height) {
+      // console.log("makeClientCrop!");
       const croppedImageUrl = await this.getCroppedImg(
         this.imageRef,
         crop,
         "CroppedImage.jpeg"
       );
-      this.setState({ croppedImageUrl });
+      this.setState({ croppedImageUrl: croppedImageUrl });
     }
   }
 
   getCroppedImg(image, crop, fileName) {
+    console.log("get cropped image");
     const canvas = document.createElement("canvas");
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
@@ -182,6 +198,7 @@ class Image extends React.Component {
                     type="file"
                     id="file"
                     ref="fileUploader"
+                    accept="image/*"
                     onChange={this.handleFileUpload}
                     style={{ display: "none" }}
                   />
@@ -201,37 +218,44 @@ class Image extends React.Component {
                     />
                   ))}
               </div>
-              {this.state.file && (
+              {this.state.fileSrc && !this.state.croppedInteracted && (
                 <ReactCrop
-                  src={this.state.file}
+                  ruleOfThirds={true}
+                  src={this.state.fileSrc}
                   crop={this.state.crop}
-                  onChange={this.handleCropping}
-                  onComplete={this.handleCropComplete}
-                  onImageUploaded={this.onImageUploaded}
+                  onChange={this.onCropChange}
+                  onComplete={this.onCropComplete}
+                  onImageLoaded={this.onImageLoaded}
                 />
               )}
               {this.state.croppedImageUrl && (
-                <img
-                  alt="Crop"
-                  style={{ maxWidth: "100%" }}
-                  src={this.state.croppedImageUrl}
-                />
+                <aside>
+                  <Image src={this.state.croppedImageUrl} thumbnail fluid />
+                </aside>
               )}
               {this.state.textVisible && (
                 <p className="help-block">Take photo with lens attachment</p>
               )}
               <form className="form-inline">
                 <div className="btn-toolbar">
-                  <button type="button" className="btn btn-primary btn-lg">
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-lg"
+                    onClick={this.onCrop}
+                  >
                     Crop
                   </button>
-                  <button type="button" className="btn btn-info btn-lg">
+                  <button
+                    type="button"
+                    className="btn btn-info btn-lg"
+                    onClick={this.onSpectrum}
+                  >
                     Spectrum
                   </button>
                   <button
                     type="button"
                     className="btn btn-danger btn-lg"
-                    onClick={this.handleRestore}
+                    onClick={this.onRestore}
                   >
                     Restore
                   </button>
@@ -245,4 +269,4 @@ class Image extends React.Component {
   }
 }
 
-export default Image;
+export default Picture;

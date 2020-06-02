@@ -17,7 +17,7 @@ class NavItem extends React.Component {
 class Nav extends React.Component {
   render() {
     return (
-      <nav className="col-lg-2 col-md-2 col-sm-2 col-xs-2" role="navagation">
+      <nav className="col-lg-2 col-md-2 col-sm-2 col-xs-2">
         <div className="sidebar-sticky">
           <div className="sidebar-inner">
             <ul

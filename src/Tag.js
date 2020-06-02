@@ -3,13 +3,13 @@ import React from "react";
 class Tag extends React.Component {
   render() {
     return (
-      <div class="col-md-4">
-        <div class="panel panel-warning">
-          <div class="panel-heading">Tag</div>
-          <div class="panel-body">
-            <form role="form">
-              <div class="form-group">
-                <select id="lampselect" class="form-control">
+      <div className="col-md-4">
+        <div className="panel panel-warning">
+          <div className="panel-heading">Tag</div>
+          <div className="panel-body">
+            <form>
+              <div className="form-group">
+                <select id="lampselect" className="form-control">
                   <option>1</option>
                   <option>2</option>
                   <option>3</option>
