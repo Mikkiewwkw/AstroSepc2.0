@@ -20,9 +20,7 @@ class Picture extends React.Component {
       fileMode: false,
       dataUri: "",
       textVisible: true,
-      crop: {
-        unit: "%",
-      },
+      crop: {},
       croppedImage: null,
       croppedInteracted: false,
     };
@@ -77,7 +75,7 @@ class Picture extends React.Component {
       const reader = new FileReader();
       reader.addEventListener("load", () => {
         this.setState({ fileSrc: reader.result });
-        console.log(reader.result);
+        // console.log(reader.result);
       });
       this.setState({ fileMode: true, textVisible: false });
       reader.readAsDataURL(event.target.files[0]);
@@ -86,18 +84,24 @@ class Picture extends React.Component {
     }
   };
 
-  onRestore = (event) => {
+  onRestart = (event) => {
     this.setState({
       fileSrc: null,
       photoMode: false,
       fileMode: false,
       textVisible: true,
       croppedInteracted: false,
+      crop: {},
     });
-    this.props.onRestore(event);
+    this.props.onRestart(event);
+  };
+
+  onRestore = (event) => {
+    this.setState({ croppedInteracted: false });
   };
 
   onCropChange = (crop, percentCrop) => {
+    // could also use percentCrop here
     this.setState({ crop: crop });
   };
 
@@ -113,7 +117,6 @@ class Picture extends React.Component {
 
   onCrop = () => {
     this.setState({
-      fileSrc: this.props.croppedImageUrl,
       croppedInteracted: true,
     });
   };
@@ -186,7 +189,7 @@ class Picture extends React.Component {
                 </aside>
               )}
               {this.state.croppedInteracted && (
-                <div className="row">
+                <div className="row image-wrapper">
                   <Image src={this.props.croppedImageUrl} fluid />
                 </div>
               )}
@@ -195,13 +198,15 @@ class Picture extends React.Component {
               )}
               <form className="form-inline">
                 <div className="btn-toolbar">
-                  <button
-                    type="button"
-                    className="btn btn-primary btn-lg"
-                    onClick={this.onCrop}
-                  >
-                    Crop
-                  </button>
+                  {!this.state.croppedInteracted && (
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-lg"
+                      onClick={this.onCrop}
+                    >
+                      Crop
+                    </button>
+                  )}
                   <button
                     type="button"
                     className="btn btn-info btn-lg"
@@ -212,11 +217,20 @@ class Picture extends React.Component {
                   <button
                     type="button"
                     className="btn btn-danger btn-lg"
-                    onClick={this.onRestore}
+                    onClick={this.onRestart}
                   >
-                    Restore
+                    Restart
                   </button>
-                  {this.props.spectrum_existed && (
+                  {this.state.croppedInteracted && (
+                    <button
+                      type="button"
+                      className="btn btn-warning btn-lg"
+                      onClick={this.onRestore}
+                    >
+                      Restore
+                    </button>
+                  )}
+                  {this.props.spectrum_existed && this.state.croppedInteracted && (
                     <button
                       type="button"
                       className="btn btn-success btn-lg"

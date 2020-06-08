@@ -2,7 +2,7 @@ import React from "react";
 import Raphael from "raphael";
 // import 'morris.js/morris.js';
 // import Morris from "morris.js/morris.js";
-import CanvasJSReact from "./assets/canvasjs.react";
+import CanvasJSReact from "../assets/canvasjs.react";
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 // var data = [
@@ -57,6 +57,7 @@ class Spectrum extends React.Component {
           dataPoints: this.props.SpectrumData,
         },
       ],
+      exportEnabled: true,
     };
     return (
       <div className="col-md-8">

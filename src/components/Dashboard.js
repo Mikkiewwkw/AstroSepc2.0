@@ -9,6 +9,7 @@ class Dashboard extends React.Component {
     this.state = {
       croppedImageUrl: null,
       croppedImage: null,
+      croppedImagePercent: null,
       fileSrc: null,
       SpectrumData: null,
       spectrum_existed: false,
@@ -20,8 +21,9 @@ class Dashboard extends React.Component {
   //   this.setState({ croppedImageUrl: null });
   // };
 
-  onCropComplete = (crop) => {
+  onCropComplete = (crop, percentCrop) => {
     console.log("crop complete");
+    this.setState({ croppedImagePercent: percentCrop });
     this.makeClientCrop(crop);
   };
 
@@ -30,8 +32,8 @@ class Dashboard extends React.Component {
     // console.log(this.imageRef);
   };
 
-  onRestore = (event) => {
-    this.setState({ croppedImageUrl: null });
+  onRestart = (event) => {
+    this.setState({ croppedImageUrl: null, SpectrumData: null });
   };
 
   async makeClientCrop(crop) {
@@ -73,17 +75,21 @@ class Dashboard extends React.Component {
     );
 
     return new Promise((resolve, reject) => {
-      canvas.toBlob((blob) => {
-        if (!blob) {
-          reject(new Error("Canvas is empty"));
-          console.error("Canvas is empty");
-          return;
-        }
-        blob.name = fileName;
-        window.URL.revokeObjectURL(this.fileUrl);
-        this.fileUrl = window.URL.createObjectURL(blob);
-        resolve(this.fileUrl);
-      }, "image/jpeg");
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) {
+            reject(new Error("Canvas is empty"));
+            console.error("Canvas is empty");
+            return;
+          }
+          blob.name = fileName;
+          window.URL.revokeObjectURL(this.fileUrl);
+          this.fileUrl = window.URL.createObjectURL(blob);
+          resolve(this.fileUrl);
+        },
+        "image/jpeg",
+        1
+      );
     });
   }
 
@@ -113,16 +119,17 @@ class Dashboard extends React.Component {
   getSpectrumData() {
     var image = new Image();
     image.src = this.croppedImage;
-    image.height = 100;
+    // document.body.appendChild(image);
+    // image.height = 100;
     var canvas = document.createElement("canvas");
     var ctx = canvas.getContext("2d");
     ctx.drawImage(image, 0, 0);
     // canvas.width = this.croppedImage.width;
     // canvas.height = this.croppedImage.height;
     var imW = Math.floor(this.croppedImage_width);
-    console.log(imW);
+    console.log("imW", imW);
     var imH = Math.floor(this.croppedImage_height);
-    console.log(imH);
+    console.log("imH", imH);
     var imgd = ctx.getImageData(0, 0, imW, imH);
     var pix = imgd.data;
 
@@ -146,12 +153,14 @@ class Dashboard extends React.Component {
     for (var z = 0; z < imW; z++) {
       for (var m = 0; m < imH; m++) {
         spectrum[z][m] = allPix[m * imW + z];
-        if (z === 300) {
-          console.log(spectrum[z][m]);
-        }
+        // if (z === 300) {
+        //   console.log(spectrum[z][m]);
+        // }
       }
+      console.log(spectrum[z]);
       spectrum[z] = this.median(spectrum[z]);
       // console.log(z, spectrum[z]);
+      console.log(spectrum[z]);
     }
 
     var data = [];
@@ -174,12 +183,18 @@ class Dashboard extends React.Component {
   render() {
     return (
       <div>
+        <div>
+          <h1>AST 1001: AstroSpec</h1>
+          <p className="text-center">
+            Compute one-dimensional cut across images and display spectrum.
+          </p>
+        </div>
         <Picture
           onImageLoaded={this.onImageLoaded}
           onCropComplete={this.onCropComplete}
           croppedImageUrl={this.state.croppedImageUrl}
           onSpectrum={this.onSpectrum}
-          onRestore={this.onRestore}
+          onRestart={this.onRestart}
           spectrum_existed={this.state.spectrum_existed}
           onSave={this.onSave}
         />

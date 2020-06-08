@@ -1,14 +1,12 @@
 import React from "react";
-// import Scrollspy from "react-scrollspy";
+import { Link } from "react-router-dom";
 
 class NavItem extends React.Component {
   render() {
-    const { sectionName } = this.props;
+    const { sectionName, sectionLink } = this.props;
     return (
       <li className="nav-item p-1">
-        <a href="../public/index.html">
-          <span className="title">{sectionName}</span>
-        </a>
+        <span className="title">{sectionName}</span>
       </li>
     );
   }
@@ -26,13 +24,25 @@ class Nav extends React.Component {
               data-offset-top="205"
             >
               <li className="text-center">
-                <a href="../publicindex.html">
+                <a href="../public/index.html">
                   <h1>AstroSpec2</h1>
                 </a>
               </li>
-              <NavItem sectionName="Dashboard" />
-              <NavItem sectionName="Images" />
-              <NavItem sectionName="Documents" />
+              {/*<NavItem
+                sectionName="Dashboard"
+                sectionLink="../public/index.html"
+              />
+              <NavItem
+                sectionName="Images"
+                sectionLink="../public/images.html"
+              />
+              <NavItem sectionName="Documents" />*/}
+              <Link to="/">
+                <NavItem sectionName="Dashboard" />
+              </Link>
+              <Link to="/images">
+                <NavItem sectionName="Images" />
+              </Link>
             </ul>
           </div>
         </div>
