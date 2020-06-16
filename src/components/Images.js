@@ -1,10 +1,12 @@
 import React from "react";
+import ImageGallery from "./Gallery";
 
 const Images = () => {
   return (
     <div>
-      <h1>About US</h1>
-      <p>About US page body content</p>
+      <h1>Images</h1>
+      <p className="text-center">Gallery of images from this session.</p>
+      <ImageGallery />
     </div>
   );
 };

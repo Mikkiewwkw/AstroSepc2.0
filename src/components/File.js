@@ -7,6 +7,8 @@ import Camera from "react-html5-camera-photo";
 import ImagePreview from "./ImagePreview";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // An alternate is to use aside tag for cropped image preview
 class Picture extends React.Component {
@@ -20,7 +22,7 @@ class Picture extends React.Component {
       fileMode: false,
       dataUri: "",
       textVisible: true,
-      crop: {},
+      crop: { x: 150, y: 150, width: 200, height: 50 },
       croppedImage: null,
       croppedInteracted: false,
     };
@@ -91,7 +93,7 @@ class Picture extends React.Component {
       fileMode: false,
       textVisible: true,
       croppedInteracted: false,
-      crop: {},
+      crop: { x: 150, y: 150, width: 200, height: 50 },
     });
     this.props.onRestart(event);
   };
@@ -116,9 +118,27 @@ class Picture extends React.Component {
   // };
 
   onCrop = () => {
-    this.setState({
-      croppedInteracted: true,
-    });
+    if (this.props.croppedImageUrl) {
+      this.setState({
+        croppedInteracted: true,
+      });
+    } else {
+      toast.error("Please upload your image!", {
+        autoClose: 3000,
+        pauseOnHover: false,
+      });
+    }
+  };
+
+  onSpectrum = () => {
+    if (this.state.croppedInteracted) {
+      this.props.onSpectrum();
+    } else {
+      toast.error("Please crop the image first!", {
+        autoClose: 3000,
+        pauseOnHover: false,
+      });
+    }
   };
 
   render() {
@@ -185,7 +205,9 @@ class Picture extends React.Component {
               )}
               {this.props.croppedImageUrl && !this.state.croppedInteracted && (
                 <aside>
-                  <Image src={this.props.croppedImageUrl} thumbnail fluid />
+                  <div className="image-wrapper">
+                    <Image src={this.props.croppedImageUrl} thumbnail fluid />
+                  </div>
                 </aside>
               )}
               {this.state.croppedInteracted && (
@@ -196,6 +218,7 @@ class Picture extends React.Component {
               {this.state.textVisible && (
                 <p className="help-block">Take photo with lens attachment</p>
               )}
+              <ToastContainer />
               <form className="form-inline">
                 <div className="btn-toolbar">
                   {!this.state.croppedInteracted && (
@@ -210,7 +233,7 @@ class Picture extends React.Component {
                   <button
                     type="button"
                     className="btn btn-info btn-lg"
-                    onClick={this.props.onSpectrum}
+                    onClick={this.onSpectrum}
                   >
                     Spectrum
                   </button>

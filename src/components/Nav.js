@@ -6,7 +6,7 @@ class NavItem extends React.Component {
     const { sectionName, sectionLink } = this.props;
     return (
       <li className="nav-item p-1">
-        <span className="title">{sectionName}</span>
+        <Link to={sectionLink}>{sectionName}</Link>
       </li>
     );
   }
@@ -14,6 +14,13 @@ class NavItem extends React.Component {
 
 class Nav extends React.Component {
   render() {
+    const left_title = (
+      <li className="text-center">
+        <Link to="/">
+          <h1>AstroSpec2</h1>
+        </Link>
+      </li>
+    );
     return (
       <nav className="col-lg-2 col-md-2 col-sm-2 col-xs-2">
         <div className="sidebar-sticky">
@@ -23,11 +30,11 @@ class Nav extends React.Component {
               data-spy="affix"
               data-offset-top="205"
             >
-              <li className="text-center">
+              {/*<li className="text-center">
                 <a href="../public/index.html">
                   <h1>AstroSpec2</h1>
                 </a>
-              </li>
+              </li>*/}
               {/*<NavItem
                 sectionName="Dashboard"
                 sectionLink="../public/index.html"
@@ -37,12 +44,9 @@ class Nav extends React.Component {
                 sectionLink="../public/images.html"
               />
               <NavItem sectionName="Documents" />*/}
-              <Link to="/">
-                <NavItem sectionName="Dashboard" />
-              </Link>
-              <Link to="/images">
-                <NavItem sectionName="Images" />
-              </Link>
+              {left_title}
+              <NavItem sectionLink="/" sectionName="Dashboard" />
+              <NavItem sectionLink="/images" sectionName="Images" />
             </ul>
           </div>
         </div>
