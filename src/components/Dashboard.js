@@ -178,8 +178,8 @@ class Dashboard extends React.Component {
     return data;
   }
 
-  onSave = () => {
-    console.log(this.chart);
+  onSave = (ref) => {
+    console.log(ref);
   };
 
   render() {
@@ -204,7 +204,7 @@ class Dashboard extends React.Component {
           <Spectrum
             croppedImageUrl={this.state.croppedImageUrl}
             SpectrumData={this.state.SpectrumData}
-            chart={this.chart}
+            onSave={this.onSave}
           />
           <Tag />
         </div>

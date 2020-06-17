@@ -2,9 +2,9 @@ import React from "react";
 import { Row, Image } from "react-bootstrap";
 import "devextreme/dist/css/dx.common.css";
 import "devextreme/dist/css/dx.light.css";
-import ActionSheet, { Item } from "devextreme-react/action-sheet";
-import Camera from "react-html5-camera-photo";
-import ImagePreview from "./ImagePreview";
+// import ActionSheet, { Item } from "devextreme-react/action-sheet";
+// import Camera from "react-html5-camera-photo";
+// import ImagePreview from "./ImagePreview";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -15,12 +15,12 @@ class Picture extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isActionSheetVisible: false,
+      // isActionSheetVisible: false,
       actionSheetTarget: "",
       fileSrc: null,
-      photoMode: false,
+      // photoMode: false,
       fileMode: false,
-      dataUri: "",
+      // dataUri: "",
       textVisible: true,
       crop: { x: 150, y: 150, width: 200, height: 50 },
       croppedImage: null,
@@ -29,40 +29,46 @@ class Picture extends React.Component {
     // this.onRestore.bind(this);
   }
 
+  // handleButtonClick = (e) => {
+  //   this.setState({
+  //     isActionSheetVisible: true,
+  //     actionSheetTarget: e.itemElement,
+  //   });
+  // };
+
   handleButtonClick = (e) => {
-    this.setState({
-      isActionSheetVisible: true,
-      actionSheetTarget: e.itemElement,
-    });
+    console.log("File!");
+    this.refs.fileUploader.click();
+    // this.refs.fileUploader.click();
   };
 
-  onActionSheetItemClick = (e) => {
-    this.setState({
-      isActionSheetVisible: false,
-    });
-    if (e.itemData.text === "Photo Library") {
-      console.log("File!");
-      this.refs.fileUploader.click();
-    } else if (e.itemData.text === "Take Photo") {
-      console.log("Photo!");
-      this.setState({ photoMode: true });
-    }
-  };
+  // onActionSheetItemClick = (e) => {
+  //   this.setState({
+  //     isActionSheetVisible: false,
+  //   });
+  //   if (e.itemData.text === "Photo Library") {
+  //     console.log("File!");
+  //     this.refs.fileUploader.click();
+  //   } else if (e.itemData.text === "Take Photo") {
+  //     console.log("Photo!");
+  //     this.setState({ photoMode: true });
+  //   }
+  // };
 
-  handleTakePhoto = (dataUri) => {
-    console.log("takePhoto");
-    this.setState({
-      dataUri: dataUri,
-      textVisible: false,
-    });
-  };
+  // handleTakePhoto = (dataUri) => {
+  //   console.log("takePhoto");
+  //   this.setState({
+  //     dataUri: dataUri,
+  //     textVisible: false,
+  //   });
+  // };
 
-  handleCancelClick = () => {
-    this.setState({
-      isActionSheetVisible: false,
-    });
-    console.log("Quit");
-  };
+  // handleCancelClick = () => {
+  //   this.setState({
+  //     isActionSheetVisible: false,
+  //   });
+  //   console.log("Quit");
+  // };
 
   // handleFileUpload = (event) => {
   //   this.setState({
@@ -73,6 +79,7 @@ class Picture extends React.Component {
   // };
 
   handleFileUpload = (event) => {
+    console.log("file uploading");
     if (event.target.files && event.target.files.length > 0) {
       const reader = new FileReader();
       reader.addEventListener("load", () => {
@@ -89,7 +96,6 @@ class Picture extends React.Component {
   onRestart = (event) => {
     this.setState({
       fileSrc: null,
-      photoMode: false,
       fileMode: false,
       textVisible: true,
       croppedInteracted: false,
@@ -151,14 +157,7 @@ class Picture extends React.Component {
               {this.state.textVisible && (
                 <div>
                   <h3>Select image</h3>
-                  <button
-                    type="button"
-                    className="btn-lg btn-default"
-                    onClick={this.handleButtonClick}
-                  >
-                    File...
-                  </button>
-                  <ActionSheet
+                  {/*<ActionSheet
                     title="Choose action"
                     usePopover={true}
                     visible={this.state.isActionSheetVisible}
@@ -168,31 +167,26 @@ class Picture extends React.Component {
                   >
                     <Item text={"Take Photo"} />
                     <Item text={"Photo Library"} />
-                  </ActionSheet>
+                  </ActionSheet>*/}
                   <input
                     type="file"
                     id="file"
-                    ref="fileUploader"
                     accept="image/*"
+                    ref="fileUploader"
                     onChange={this.handleFileUpload}
                     style={{ display: "none" }}
                   />
+                  <div className="input-append">
+                    <button
+                      type="button"
+                      className="btn-lg btn-default"
+                      onClick={this.handleButtonClick}
+                    >
+                      File...
+                    </button>
+                  </div>
                 </div>
               )}
-              <div>
-                {this.state.photoMode &&
-                  (this.state.dataUri ? (
-                    <ImagePreview
-                      dataUri={this.state.dataUri}
-                      isFullscreen={false}
-                    />
-                  ) : (
-                    <Camera
-                      onTakePhoto={this.handleTakePhoto}
-                      isFullscreen={false}
-                    />
-                  ))}
-              </div>
               {this.state.fileSrc && !this.state.croppedInteracted && (
                 <ReactCrop
                   ruleOfThirds={true}

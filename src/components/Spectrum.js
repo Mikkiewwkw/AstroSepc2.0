@@ -44,9 +44,16 @@ class Spectrum extends React.Component {
     // window.Raphael = Raphael;
   }
 
-  componentDidUpdate() {
-    this.props.chart = this.state.chart;
-  }
+  // componentDidUpdate() {
+  //   this.props.chart = this.state.chart;
+  // }
+  onSave = () => {
+    console.log(this.chart);
+  };
+
+  // componentDidUpdate() {
+  //   this.props.chart = this.chart;
+  // }
 
   render() {
     const options = {
@@ -83,7 +90,7 @@ class Spectrum extends React.Component {
             {this.props.SpectrumData && (
               <CanvasJSChart
                 options={options}
-                onRef={(ref) => this.setState({ ref })}
+                onRef={(ref) => this.props.onSave(ref)}
               />
             )}
           </div>
