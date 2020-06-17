@@ -1,8 +1,7 @@
 import React, { useState, useCallback } from "react";
-import { render } from "react-dom";
 import Gallery from "react-photo-gallery";
 import Carousel, { Modal, ModalGateway } from "react-images";
-import { photos } from "./photos";
+// import { photos } from "./photos";
 
 function ImageGallery() {
   const [currentImage, setCurrentImage] = useState(0);
@@ -17,6 +16,19 @@ function ImageGallery() {
     setCurrentImage(0);
     setViewerIsOpen(false);
   };
+
+  const photos = [
+    {
+      src: "https://source.unsplash.com/2ShvY8Lf6l0/800x599",
+      width: 4,
+      height: 3,
+    },
+    {
+      src: "https://source.unsplash.com/Dm-qxdynoEc/800x799",
+      width: 1,
+      height: 1,
+    },
+  ];
 
   return (
     <div>

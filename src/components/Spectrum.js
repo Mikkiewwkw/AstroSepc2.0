@@ -1,5 +1,5 @@
 import React from "react";
-import Raphael from "raphael";
+// import Raphael from "raphael";
 // import 'morris.js/morris.js';
 // import Morris from "morris.js/morris.js";
 import CanvasJSReact from "../assets/canvasjs.react";
@@ -38,7 +38,14 @@ var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 class Spectrum extends React.Component {
   constructor(props) {
     super(props);
-    window.Raphael = Raphael;
+    this.state = {
+      chart: null,
+    };
+    // window.Raphael = Raphael;
+  }
+
+  componentDidUpdate() {
+    this.props.chart = this.state.chart;
   }
 
   render() {
@@ -59,6 +66,7 @@ class Spectrum extends React.Component {
       ],
       exportEnabled: true,
     };
+
     return (
       <div className="col-md-8">
         <div className="panel panel-primary">
@@ -72,7 +80,12 @@ class Spectrum extends React.Component {
             />
             <div id="myfirstchart" style={{ height: "250px" }}></div>
             <canvas id="CanInvis" className="hidden"></canvas>*/}
-            {this.props.SpectrumData && <CanvasJSChart options={options} />}
+            {this.props.SpectrumData && (
+              <CanvasJSChart
+                options={options}
+                onRef={(ref) => this.setState({ ref })}
+              />
+            )}
           </div>
         </div>
       </div>
