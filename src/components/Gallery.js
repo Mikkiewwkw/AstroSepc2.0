@@ -30,9 +30,17 @@ function ImageGallery() {
     },
   ];
 
+  const spectrum = [
+    { src: localStorage.getItem("lamp-3"), width: 4, height: 3 },
+  ];
+
   return (
     <div>
-      <Gallery photos={photos} onClick={openLightbox} />
+      {localStorage.getItem("lamp-3") != null ? (
+        <Gallery photos={spectrum} onClick={openLightbox} />
+      ) : (
+        <Gallery photos={photos} onClick={openLightbox} />
+      )}
       <ModalGateway>
         {viewerIsOpen ? (
           <Modal onClose={closeLightbox}>

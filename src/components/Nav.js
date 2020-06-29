@@ -25,11 +25,12 @@ class Nav extends React.Component {
       <nav className="col-lg-2 col-md-2 col-sm-2 col-xs-2">
         <div className="sidebar-sticky">
           <div className="sidebar-inner">
-            <ul
+            {/*<ul
               className="nav flex-column nav-pills nav-stacked"
               data-spy="affix"
               data-offset-top="205"
-            >
+            >*/}
+            <ul className="nav flex-column nav-pills nav-stacked">
               {/*<li className="text-center">
                 <a href="../public/index.html">
                   <h1>AstroSpec2</h1>
@@ -47,6 +48,7 @@ class Nav extends React.Component {
               {left_title}
               <NavItem sectionLink="/" sectionName="Dashboard" />
               <NavItem sectionLink="/images" sectionName="Images" />
+              <NavItem sectionLink="/document" sectionName="Document" />
             </ul>
           </div>
         </div>

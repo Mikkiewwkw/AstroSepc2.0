@@ -10,6 +10,14 @@ import "react-image-crop/dist/ReactCrop.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+// const Msg = () => (
+//   <div>
+//     Lorem ipsum dolor
+//     <button>Retry</button>
+//     <button>Close</button>
+//   </div>
+// );
+
 // An alternate is to use aside tag for cropped image preview
 class Picture extends React.Component {
   constructor(props) {
@@ -88,8 +96,8 @@ class Picture extends React.Component {
       });
       this.setState({ fileMode: true, textVisible: false });
       reader.readAsDataURL(event.target.files[0]);
-      localStorage["fileBase64"] = event.target.files[0];
-      console.debug("file stored", event.target.files[0]);
+      // localStorage["fileBase64"] = event.target.files[0];
+      // console.debug("file stored", event.target.files[0]);
     }
   };
 
@@ -105,6 +113,8 @@ class Picture extends React.Component {
   };
 
   onRestore = (event) => {
+    // toast.error(<Msg />);
+    toast.info("Restore previous progress!", { pauseOnHover: false });
     this.setState({ croppedInteracted: false });
   };
 

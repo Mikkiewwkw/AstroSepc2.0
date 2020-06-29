@@ -57,7 +57,7 @@ class Spectrum extends React.Component {
 
   render() {
     const options = {
-      animationEnabled: true,
+      animationEnabled: false,
       title: {
         text: "Spectrum",
       },
