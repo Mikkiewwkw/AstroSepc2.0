@@ -35,7 +35,7 @@ class Dashboard extends React.Component {
       SpectrumData: null,
       spectrum_existed: false,
       spectrum_url: null,
-      spectrum: null,
+      saved_canvas: null,
       selectedOption: null,
     };
     // this.onRestore.bind(this);
@@ -225,6 +225,7 @@ class Dashboard extends React.Component {
   // };
 
   onOverwrite = () => {
+    localStorage.removeItem(this.key);
     localStorage[this.key] = this.value;
     // console.log(this.toast_id);
     // toast.update(this.toast_id, {
@@ -237,35 +238,10 @@ class Dashboard extends React.Component {
   };
 
   onSave = () => {
-    this.previewSavedCanvas();
-  };
-
-  async previewSavedCanvas() {
-    // console.log(this.spectrum);
-    await this.getSavedCanvas().then((res) => this.setState({ spectrum: res }));
-    // console.log(canvas_url);
-  }
-
-  getSavedCanvas() {
+    // this.previewSavedCanvas();
+    console.log(this.spectrum);
     let spectrum_url = this.spectrum.exportChart({ toDataURL: true });
     this.setState({ spectrum_url: spectrum_url });
-    var image = new Image();
-    image.src = spectrum_url;
-
-    console.log(image);
-
-    let spec_width = this.spectrum.get("width");
-    let spec_height = this.spectrum.get("height");
-    console.log(spec_width);
-    console.log(spec_height);
-    var canvas = document.createElement("canvas");
-    canvas.width = spec_width;
-    canvas.height = spec_height;
-    var context = canvas.getContext("2d");
-    // Set background white
-    // context.fillStyle = "#FFFFFF";
-    // context.fillRect(0, 0, canvas.width, canvas.height);
-    context.drawImage(image, 0, 0, spec_width, spec_height);
 
     if (!this.selectedOption) {
       toast.error("Please select a tag first!", {
@@ -276,8 +252,7 @@ class Dashboard extends React.Component {
     } else {
       this.key = "lamp-" + this.selectedOption["value"];
     }
-    console.log(this.key);
-    this.value = JSON.stringify(canvas.toDataURL());
+    this.value = spectrum_url;
 
     // If already stored, throw alert
     if (localStorage.getItem(this.key) != null && this.key !== "Invalid") {
@@ -290,24 +265,83 @@ class Dashboard extends React.Component {
         toast.success("File saved!", { pauseOnHover: false });
       }
     }
+  };
 
-    return new Promise((resolve, reject) => {
-      canvas.toBlob(
-        (blob) => {
-          if (!blob) {
-            reject(new Error("Canvas is empty"));
-            console.error("Canvas is empty");
-            return;
-          }
-          window.URL.revokeObjectURL(this.fileUrl);
-          this.fileUrl = window.URL.createObjectURL(blob);
-          resolve(this.fileUrl);
-        },
-        "image/jpeg",
-        1
-      );
-    });
-  }
+  // async previewSavedCanvas() {
+  //   // console.log(this.spectrum);
+  //   const saved_canvas = await this.getSavedCanvas();
+  //   this.setState({ saved_canvas: saved_canvas });
+  // }
+  //
+  // getSavedCanvas() {
+  //   console.log(this.spectrum);
+  //   let spectrum_url = this.spectrum.exportChart({ toDataURL: true });
+  //   this.setState({ spectrum_url: spectrum_url });
+  //   let spec_width = this.spectrum.get("width");
+  //   let spec_height = this.spectrum.get("height");
+  //
+  //   var image = new Image();
+  //   image.src = spectrum_url;
+  //   // image.width = spec_width;
+  //   // image.height = spec_height;
+  //   // console.log(image.width);
+  //   // console.log(image.height);
+  //   // console.log(image);
+  //
+  //   console.log(spec_width);
+  //   console.log(spec_height);
+  //   var canvas = document.createElement("canvas");
+  //   canvas.width = spec_width;
+  //   canvas.height = spec_height;
+  //   var context = canvas.getContext("2d");
+  //   // Set background white
+  //   // context.fillStyle = "#FFFFFF";
+  //   // context.fillRect(0, 0, canvas.width, canvas.height);
+  //   context.drawImage(image, 0, 0, spec_width, spec_height);
+  //
+  //   if (!this.selectedOption) {
+  //     toast.error("Please select a tag first!", {
+  //       pauseOnHover: false,
+  //       autoClose: 2000,
+  //     });
+  //     this.key = "Invalid";
+  //   } else {
+  //     this.key = "lamp-" + this.selectedOption["value"];
+  //   }
+  //   console.log(this.key);
+  //   // this.value = JSON.stringify(canvas.toDataURL());
+  //   this.value = spectrum_url;
+  //
+  //   // If already stored, throw alert
+  //   if (localStorage.getItem(this.key) != null && this.key !== "Invalid") {
+  //     this.toast_id = toast.error(({ closeToast }) => (
+  //       <FileExisted onOverwrite={this.onOverwrite} />
+  //     ));
+  //   } else {
+  //     localStorage[this.key] = this.value;
+  //     if (this.key !== "Invalid") {
+  //       toast.success("File saved!", { pauseOnHover: false });
+  //     }
+  //   }
+  //
+  //   return new Promise((resolve, reject) => {
+  //     canvas.toBlob(
+  //       (blob) => {
+  //         if (!blob) {
+  //           reject(new Error("Canvas is empty"));
+  //           console.error("Canvas is empty");
+  //           return;
+  //         }
+  //         blob.name = this.key;
+  //         window.URL.revokeObjectURL(this.fileUrl);
+  //         this.fileUrl = window.URL.createObjectURL(blob);
+  //         resolve(this.fileUrl);
+  //       },
+  //       "image/jpeg",
+  //       1
+  //     );
+  //   });
+  // }
 
   render() {
     const spec_options = {
@@ -336,13 +370,26 @@ class Dashboard extends React.Component {
             Compute one-dimensional cut across images and display spectrum.
           </p>
         </div>
-        <img alt="canvas" src={this.state.spectrum} height="100" width="100" />
-        <img
-          alt="spectrum"
-          src={this.state.spectrum_url}
-          height="200"
-          width="200"
-        />
+        {/*this.state.saved_canvas && (
+          <aside>
+            <div className="image-wrapper">
+              <img
+                alt="saved_canvas"
+                src={localStorage.getItem("lamp-1")}
+                height="200"
+                width="200"
+              />
+            </div>
+          </aside>
+        )*/}
+        {/*this.state.spectrum_url && (
+          <img
+            alt="spectrum"
+            src={this.state.spectrum_url}
+            height="200"
+            width="200"
+          />
+        )*/}
         <Picture
           onImageLoaded={this.onImageLoaded}
           onCropComplete={this.onCropComplete}

@@ -4,6 +4,7 @@ import Nav from "./components/Nav";
 import Dashboard from "./components/Dashboard";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Images from "./components/Images";
+import Document from "./components/Document";
 
 function App() {
   return (
@@ -20,8 +21,10 @@ function App() {
                 <Route path="/images">
                   <Images />
                 </Route>
+                <Route path="/document">
+                  <Document />
+                </Route>
               </Switch>
-              {/*<Dashboard />*/}
             </main>
           </div>
         </div>

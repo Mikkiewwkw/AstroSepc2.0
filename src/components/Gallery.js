@@ -6,6 +6,22 @@ import Carousel, { Modal, ModalGateway } from "react-images";
 function ImageGallery() {
   const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
+  const [isGalleryEmpty, setGalleryEmpty] = useState(true);
+  const [confirmDeleteAll, setConfirmDeleteAll] = useState(false);
+  // const [photos, setPhotos] = useState([]);
+  const keyList = [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "Incandescent",
+    "Flourescent",
+    "Halogen",
+    "Sun",
+  ];
 
   const openLightbox = useCallback((event, { photo, index }) => {
     setCurrentImage(index);
@@ -17,44 +33,111 @@ function ImageGallery() {
     setViewerIsOpen(false);
   };
 
-  const photos = [
-    {
-      src: "https://source.unsplash.com/2ShvY8Lf6l0/800x599",
-      width: 4,
-      height: 3,
-    },
-    {
-      src: "https://source.unsplash.com/Dm-qxdynoEc/800x799",
+  const onClearAll = () => {
+    setConfirmDeleteAll(true);
+  };
+
+  const onConfirm = () => {
+    for (var i = 0; i < keyList.length; i++) {
+      var key = "lamp-" + keyList[i];
+      if (localStorage.getItem(key) === null) {
+        continue;
+      }
+      localStorage.removeItem(key);
+    }
+    photos = [];
+    setGalleryEmpty(true);
+  };
+
+  var photos = [];
+  for (var i = 0; i < keyList.length; i++) {
+    var key = "lamp-" + keyList[i];
+    if (localStorage.getItem(key) === null) {
+      continue;
+    }
+    if (isGalleryEmpty) {
+      setGalleryEmpty(false);
+    }
+    photos.push({
+      src: localStorage.getItem(key),
       width: 1,
       height: 1,
-    },
-  ];
-
-  const spectrum = [
-    { src: localStorage.getItem("lamp-3"), width: 4, height: 3 },
-  ];
+      title: key,
+    });
+  }
+  // const photos = [
+  //   {
+  //     src: localStorage.getItem("lamp-1"),
+  //     width: 1,
+  //     height: 1,
+  //   },
+  //   {
+  //     src: localStorage.getItem("lamp-2"),
+  //     width: 1,
+  //     height: 1,
+  //   },
+  // ];
 
   return (
     <div>
-      {localStorage.getItem("lamp-3") != null ? (
-        <Gallery photos={spectrum} onClick={openLightbox} />
+      {isGalleryEmpty ? (
+        <div
+          id="file-alert"
+          className="alert alert-info alert-dismissable fade in"
+          role="alert"
+        >
+          <button
+            id="button-close"
+            type="button"
+            className="close"
+            data-dismiss="alert"
+          >
+            <span aria-hidden="true">&times;</span>
+            <span className="sr-only">Close</span>
+          </button>
+          <h3>
+            <i className="fa fa-minus-circle"></i> No images found. Return to{" "}
+            <strong>Dashboard</strong> and save your spectra
+          </h3>
+        </div>
       ) : (
-        <Gallery photos={photos} onClick={openLightbox} />
+        <div>
+          <Gallery photos={photos} onClick={openLightbox} />
+          <ModalGateway>
+            {viewerIsOpen ? (
+              <Modal onClose={closeLightbox}>
+                <Carousel
+                  currentIndex={currentImage}
+                  views={photos.map((x) => ({
+                    ...x,
+                    srcset: x.srcSet,
+                    caption: x.title,
+                  }))}
+                />
+              </Modal>
+            ) : null}
+          </ModalGateway>
+          <div className="btn-toolbar" role="toolbar" aria-label="Toolbar">
+            <hr />
+            <button
+              type="button"
+              className="btn btn-danger btn-lg"
+              onClick={onClearAll}
+            >
+              Clear All
+            </button>
+            {confirmDeleteAll && (
+              <button
+                type="button"
+                className="btn btn-success btn-lg"
+                onClick={onConfirm}
+              >
+                Confirm
+              </button>
+            )}
+          </div>
+        </div>
       )}
-      <ModalGateway>
-        {viewerIsOpen ? (
-          <Modal onClose={closeLightbox}>
-            <Carousel
-              currentIndex={currentImage}
-              views={photos.map((x) => ({
-                ...x,
-                srcset: x.srcSet,
-                caption: x.title,
-              }))}
-            />
-          </Modal>
-        ) : null}
-      </ModalGateway>
     </div>
   );
 }

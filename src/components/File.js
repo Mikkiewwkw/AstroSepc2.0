@@ -223,51 +223,49 @@ class Picture extends React.Component {
                 <p className="help-block">Take photo with lens attachment</p>
               )}
               <ToastContainer />
-              <form className="form-inline">
-                <div className="btn-toolbar">
-                  {!this.state.croppedInteracted && (
-                    <button
-                      type="button"
-                      className="btn btn-primary btn-lg"
-                      onClick={this.onCrop}
-                    >
-                      Crop
-                    </button>
-                  )}
+              <div className="btn-toolbar">
+                {!this.state.croppedInteracted && (
                   <button
                     type="button"
-                    className="btn btn-info btn-lg"
-                    onClick={this.onSpectrum}
+                    className="btn btn-primary btn-lg"
+                    onClick={this.onCrop}
                   >
-                    Spectrum
+                    Crop
                   </button>
+                )}
+                <button
+                  type="button"
+                  className="btn btn-info btn-lg"
+                  onClick={this.onSpectrum}
+                >
+                  Spectrum
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger btn-lg"
+                  onClick={this.onRestart}
+                >
+                  Restart
+                </button>
+                {this.state.croppedInteracted && (
                   <button
                     type="button"
-                    className="btn btn-danger btn-lg"
-                    onClick={this.onRestart}
+                    className="btn btn-warning btn-lg"
+                    onClick={this.onRestore}
                   >
-                    Restart
+                    Restore
                   </button>
-                  {this.state.croppedInteracted && (
-                    <button
-                      type="button"
-                      className="btn btn-warning btn-lg"
-                      onClick={this.onRestore}
-                    >
-                      Restore
-                    </button>
-                  )}
-                  {this.props.spectrum_existed && this.state.croppedInteracted && (
-                    <button
-                      type="button"
-                      className="btn btn-success btn-lg"
-                      onClick={this.props.onSave}
-                    >
-                      Save
-                    </button>
-                  )}
-                </div>
-              </form>
+                )}
+                {this.props.spectrum_existed && this.state.croppedInteracted && (
+                  <button
+                    type="button"
+                    className="btn btn-success btn-lg"
+                    onClick={this.props.onSave}
+                  >
+                    Save
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
