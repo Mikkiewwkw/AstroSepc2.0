@@ -60,9 +60,11 @@ function ImageGallery() {
     }
     photos.push({
       src: localStorage.getItem(key),
-      width: 1,
-      height: 1,
+      width: 3,
+      height: 4,
+      alt: key,
       title: key,
+      sizes: ["(min-width: 480px) 50vw,(min-width: 1024px) 33.3vw,100vw"],
     });
   }
   // const photos = [
@@ -102,7 +104,11 @@ function ImageGallery() {
         </div>
       ) : (
         <div>
-          <Gallery photos={photos} onClick={openLightbox} />
+          <Gallery
+            photos={photos}
+            onClick={openLightbox}
+            targetRowHeight={150}
+          />
           <ModalGateway>
             {viewerIsOpen ? (
               <Modal onClose={closeLightbox}>

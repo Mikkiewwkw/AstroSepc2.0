@@ -52,6 +52,8 @@ class Dashboard extends React.Component {
   };
 
   onImageLoaded = (image) => {
+    // image.width = 100;
+    // image.height = 200;
     this.imageRef = image;
     // console.log(this.imageRef);
   };
@@ -239,9 +241,6 @@ class Dashboard extends React.Component {
 
   onSave = () => {
     // this.previewSavedCanvas();
-    console.log(this.spectrum);
-    let spectrum_url = this.spectrum.exportChart({ toDataURL: true });
-    this.setState({ spectrum_url: spectrum_url });
 
     if (!this.selectedOption) {
       toast.error("Please select a tag first!", {
@@ -252,6 +251,20 @@ class Dashboard extends React.Component {
     } else {
       this.key = "lamp-" + this.selectedOption["value"];
     }
+
+    this.spectrum.title.set("text", this.key);
+    console.log(this.spectrum.get("height")); // 400px
+    console.log(this.spectrum.get("width")); // 490px
+    this.spectrum.set("height", 200);
+    this.spectrum.set("width", 300);
+    console.log(this.spectrum);
+
+    // saved croppedImage
+    // this.croppedImageKey = this.key + ""
+
+    let spectrum_url = this.spectrum.exportChart({ toDataURL: true });
+    this.setState({ spectrum_url: spectrum_url });
+
     this.value = spectrum_url;
 
     // If already stored, throw alert
@@ -345,6 +358,7 @@ class Dashboard extends React.Component {
 
   render() {
     const spec_options = {
+      theme: "light2",
       animationEnabled: true,
       title: {
         text: "Spectrum",
@@ -359,7 +373,6 @@ class Dashboard extends React.Component {
           dataPoints: this.state.SpectrumData,
         },
       ],
-      exportEnabled: true,
     };
 
     return (
@@ -437,6 +450,7 @@ class Dashboard extends React.Component {
                     value={this.state.selectedOption}
                     onChange={this.handleSelectChange}
                     options={select_options}
+                    isSearchable={false}
                   />
                 </div>
               </div>

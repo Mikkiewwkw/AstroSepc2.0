@@ -30,7 +30,7 @@ class Picture extends React.Component {
       fileMode: false,
       // dataUri: "",
       textVisible: true,
-      crop: { x: 150, y: 150, width: 200, height: 50 },
+      crop: { x: 100, y: 100, width: 150, height: 50 },
       croppedImage: null,
       croppedInteracted: false,
     };
@@ -87,15 +87,52 @@ class Picture extends React.Component {
   // };
 
   handleFileUpload = (event) => {
-    console.log("file uploading");
+    console.log("file uploading", event.target.files[0]);
     if (event.target.files && event.target.files.length > 0) {
       const reader = new FileReader();
-      reader.addEventListener("load", () => {
-        this.setState({ fileSrc: reader.result });
-        // console.log(reader.result);
-      });
-      this.setState({ fileMode: true, textVisible: false });
+      var img = document.createElement("img");
+      reader.onload = (e) => {
+        img.onload = () => {
+          var canvas = document.createElement("canvas");
+          // var ctx = canvas.getContext("2d");
+          // ctx.drawImage(img, 0, 0);
+
+          var MAX_WIDTH = 300;
+          var MAX_HEIGHT = 400;
+          var width = img.width; // 480px
+          var height = img.height; // 360px
+          console.log(width);
+          console.log(height);
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          var ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, width, height);
+          var dataurl = canvas.toDataURL("img/png");
+
+          this.setState({ fileSrc: dataurl });
+        };
+        img.src = e.target.result;
+        // img.width = 200;
+        // img.height = 200;
+      };
       reader.readAsDataURL(event.target.files[0]);
+      // this.setState({ fileSrc: reader.result });
+      // console.log(reader.result);
+      this.setState({ fileMode: true, textVisible: false });
+      // reader.readAsDataURL(event.target.files[0]);
       // localStorage["fileBase64"] = event.target.files[0];
       // console.debug("file stored", event.target.files[0]);
     }
@@ -107,7 +144,7 @@ class Picture extends React.Component {
       fileMode: false,
       textVisible: true,
       croppedInteracted: false,
-      crop: { x: 150, y: 150, width: 200, height: 50 },
+      crop: { x: 100, y: 100, width: 100, height: 50 },
     });
     this.props.onRestart(event);
   };
