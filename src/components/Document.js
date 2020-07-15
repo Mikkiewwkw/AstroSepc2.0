@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf/dist/entry.webpack";
-import "../Sample.less";
+// import "../Sample.less";
 import samplePDF from "../test.pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
