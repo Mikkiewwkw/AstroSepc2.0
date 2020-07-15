@@ -183,10 +183,10 @@ class Dashboard extends React.Component {
         //   console.log(spectrum[z][m]);
         // }
       }
-      console.log(spectrum[z]);
+      // console.log(spectrum[z]);
       spectrum[z] = this.median(spectrum[z]);
       // console.log(z, spectrum[z]);
-      console.log(spectrum[z]);
+      // console.log(spectrum[z]);
     }
 
     var data = [];
@@ -228,7 +228,9 @@ class Dashboard extends React.Component {
 
   onOverwrite = () => {
     localStorage.removeItem(this.key);
+    localStorage.removeItem(this.croppedImageKey);
     localStorage[this.key] = this.value;
+    localStorage[this.croppedImageKey] = this.croppedImage;
     // console.log(this.toast_id);
     // toast.update(this.toast_id, {
     //   render: "File Saved!",
@@ -250,13 +252,14 @@ class Dashboard extends React.Component {
       this.key = "Invalid";
     } else {
       this.key = "lamp-" + this.selectedOption["value"];
+      this.croppedImageKey = this.key + "-cropped-image";
     }
 
     this.spectrum.title.set("text", this.key);
     console.log(this.spectrum.get("height")); // 400px
     console.log(this.spectrum.get("width")); // 490px
-    this.spectrum.set("height", 200);
-    this.spectrum.set("width", 300);
+    this.spectrum.set("height", 300);
+    this.spectrum.set("width", 400);
     console.log(this.spectrum);
 
     // saved croppedImage
@@ -273,8 +276,9 @@ class Dashboard extends React.Component {
         <FileExisted onOverwrite={this.onOverwrite} />
       ));
     } else {
-      localStorage[this.key] = this.value;
       if (this.key !== "Invalid") {
+        localStorage[this.croppedImageKey] = this.croppedImage;
+        localStorage[this.key] = this.value;
         toast.success("File saved!", { pauseOnHover: false });
       }
     }

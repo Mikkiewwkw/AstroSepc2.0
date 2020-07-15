@@ -40,9 +40,11 @@ function ImageGallery() {
   const onConfirm = () => {
     for (var i = 0; i < keyList.length; i++) {
       var key = "lamp-" + keyList[i];
+      var croppedImageKey = key + "-cropped-image";
       if (localStorage.getItem(key) === null) {
         continue;
       }
+      localStorage.removeItem(croppedImageKey);
       localStorage.removeItem(key);
     }
     photos = [];
@@ -52,12 +54,22 @@ function ImageGallery() {
   var photos = [];
   for (var i = 0; i < keyList.length; i++) {
     var key = "lamp-" + keyList[i];
+    var croppedImageKey = key + "-cropped-image";
     if (localStorage.getItem(key) === null) {
       continue;
     }
     if (isGalleryEmpty) {
       setGalleryEmpty(false);
     }
+    photos.push({
+      src: localStorage.getItem(croppedImageKey),
+      width: 3,
+      height: 4,
+      alt: croppedImageKey,
+      title: key + " cropped image",
+      sizes: ["(min-width: 480px) 50vw,(min-width: 1024px) 33.3vw,100vw"],
+    });
+
     photos.push({
       src: localStorage.getItem(key),
       width: 3,

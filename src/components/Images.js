@@ -5,7 +5,7 @@ const Images = () => {
   return (
     <div>
       <h1>Images</h1>
-      <p className="text-center">Gallery of images from this session.</p>
+      <p className="text-center">Gallery of images from this session</p>
       <div className="row">
         <div className="col-md-12">
           <div className="panel panel-primary">

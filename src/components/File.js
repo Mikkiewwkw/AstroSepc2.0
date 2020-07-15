@@ -97,8 +97,8 @@ class Picture extends React.Component {
           // var ctx = canvas.getContext("2d");
           // ctx.drawImage(img, 0, 0);
 
-          var MAX_WIDTH = 300;
-          var MAX_HEIGHT = 400;
+          var MAX_WIDTH = 300; // original 300
+          var MAX_HEIGHT = 400; // original 400
           var width = img.width; // 480px
           var height = img.height; // 360px
           console.log(width);
@@ -270,13 +270,15 @@ class Picture extends React.Component {
                     Crop
                   </button>
                 )}
-                <button
-                  type="button"
-                  className="btn btn-info btn-lg"
-                  onClick={this.onSpectrum}
-                >
-                  Spectrum
-                </button>
+                {this.state.croppedInteracted && (
+                  <button
+                    type="button"
+                    className="btn btn-info btn-lg"
+                    onClick={this.onSpectrum}
+                  >
+                    Spectrum
+                  </button>
+                )}
                 <button
                   type="button"
                   className="btn btn-danger btn-lg"
