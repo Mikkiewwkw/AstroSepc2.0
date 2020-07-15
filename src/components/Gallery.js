@@ -107,7 +107,7 @@ function ImageGallery() {
           <Gallery
             photos={photos}
             onClick={openLightbox}
-            targetRowHeight={150}
+            targetRowHeight={250}
           />
           <ModalGateway>
             {viewerIsOpen ? (
