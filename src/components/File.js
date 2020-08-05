@@ -97,12 +97,12 @@ class Picture extends React.Component {
           // var ctx = canvas.getContext("2d");
           // ctx.drawImage(img, 0, 0);
 
-          var MAX_WIDTH = 300; // original 300
-          var MAX_HEIGHT = 400; // original 400
+          var MAX_WIDTH = 400; // original 300
+          var MAX_HEIGHT = 500; // original 400
           var width = img.width; // 480px
           var height = img.height; // 360px
-          console.log(width);
-          console.log(height);
+          console.log("uploaded image width", width);
+          console.log("uploaded image height", height);
 
           if (width > height) {
             if (width > MAX_WIDTH) {
@@ -130,11 +130,7 @@ class Picture extends React.Component {
       };
       reader.readAsDataURL(event.target.files[0]);
       // this.setState({ fileSrc: reader.result });
-      // console.log(reader.result);
       this.setState({ fileMode: true, textVisible: false });
-      // reader.readAsDataURL(event.target.files[0]);
-      // localStorage["fileBase64"] = event.target.files[0];
-      // console.debug("file stored", event.target.files[0]);
     }
   };
 
@@ -159,16 +155,6 @@ class Picture extends React.Component {
     // could also use percentCrop here
     this.setState({ crop: crop });
   };
-
-  // onImageLoaded = (image) => {
-  //   this.imageRef = image;
-  //   // console.log(this.imageRef);
-  // };
-
-  // onCropComplete = (crop) => {
-  //   console.log("crop complete");
-  //   this.makeClientCrop(crop);
-  // };
 
   onCrop = () => {
     if (this.props.croppedImageUrl) {

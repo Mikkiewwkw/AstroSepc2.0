@@ -52,10 +52,7 @@ class Dashboard extends React.Component {
   };
 
   onImageLoaded = (image) => {
-    // image.width = 100;
-    // image.height = 200;
     this.imageRef = image;
-    // console.log(this.imageRef);
   };
 
   onRestart = (event) => {
@@ -80,7 +77,9 @@ class Dashboard extends React.Component {
     console.log("get cropped image");
     const canvas = document.createElement("canvas");
     const scaleX = image.naturalWidth / image.width;
+    // this.scaleX = scaleX;
     const scaleY = image.naturalHeight / image.height;
+    // this.scaleY = scaleY;
     canvas.width = crop.width;
     canvas.height = crop.height;
     this.croppedImage_width = crop.width;
@@ -100,23 +99,22 @@ class Dashboard extends React.Component {
       crop.height
     );
 
-    return new Promise((resolve, reject) => {
-      canvas.toBlob(
-        (blob) => {
-          if (!blob) {
-            reject(new Error("Canvas is empty"));
-            console.error("Canvas is empty");
-            return;
-          }
-          blob.name = fileName;
-          window.URL.revokeObjectURL(this.fileUrl);
-          this.fileUrl = window.URL.createObjectURL(blob);
-          resolve(this.fileUrl);
-        },
-        "image/jpeg",
-        1
-      );
-    });
+    return canvas.toDataURL("image.jpeg");
+
+    // return a blob URL
+    // return new Promise((resolve, reject) => {
+    //   canvas.toBlob((blob) => {
+    //     if (!blob) {
+    //       reject(new Error("Canvas is empty"));
+    //       console.error("Canvas is empty");
+    //       return;
+    //     }
+    //     blob.name = fileName;
+    //     window.URL.revokeObjectURL(this.fileUrl);
+    //     this.fileUrl = window.URL.createObjectURL(blob);
+    //     resolve(this.fileUrl);
+    //   }, "image/jpeg");
+    // });
   }
 
   median(values) {
@@ -145,17 +143,27 @@ class Dashboard extends React.Component {
   getSpectrumData() {
     var image = new Image();
     image.src = this.croppedImage;
+    console.log(this.croppedImage);
+    console.log(image.naturalWidth);
+    console.log(image.naturalHeight);
     // document.body.appendChild(image);
     // image.height = 100;
     var canvas = document.createElement("canvas");
     var ctx = canvas.getContext("2d");
-    ctx.drawImage(image, 0, 0);
+
+    // Scale the image down to fix the 300px error
+    var scaleX = 300 / image.width;
+
+    ctx.drawImage(image, 0, 0, image.width * scaleX, image.height);
     // canvas.width = this.croppedImage.width;
     // canvas.height = this.croppedImage.height;
-    var imW = Math.floor(this.croppedImage_width);
+    console.log("croppedImage_width", this.croppedImage_width);
+    var imW = Math.floor(image.width * scaleX);
     console.log("imW", imW);
-    var imH = Math.floor(this.croppedImage_height);
+    console.log("croppedImage_height", this.croppedImage_height);
+    var imH = Math.floor(image.height);
     console.log("imH", imH);
+    // var imgd = ctx.getImageData(0, 0, imW, imH);
     var imgd = ctx.getImageData(0, 0, imW, imH);
     var pix = imgd.data;
 
