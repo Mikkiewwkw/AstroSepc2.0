@@ -97,7 +97,7 @@ class Picture extends React.Component {
           // var ctx = canvas.getContext("2d");
           // ctx.drawImage(img, 0, 0);
 
-          var MAX_WIDTH = 400; // original 300
+          var MAX_WIDTH = 460; // original 300
           var MAX_HEIGHT = 500; // original 400
           var width = img.width; // 480px
           var height = img.height; // 360px
